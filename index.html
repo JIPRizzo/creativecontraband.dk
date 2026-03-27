@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+       DOCUMENT METADATA
+       Page title, description, responsive viewport, stylesheet
+       ========================================================= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Contraband Productions</title>
+  <meta
+    name="description"
+    content="Story-led video for brands, founders, and projects that have something real to say."
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body id="top">
+  <!-- =========================================================
+       ACCESSIBILITY
+       Skip link lets keyboard users jump past navigation
+       ========================================================= -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- =========================================================
+       SITE HEADER
+       Sticky top bar containing wordmark and primary navigation
+       ========================================================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand / wordmark -->
+      <a class="wordmark" href="#top">Creative Contraband Productions</a>
+
+      <!-- Mobile nav toggle
+           Currently hidden in CSS and not wired up with JS yet -->
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav"
+        aria-label="Open navigation"
+      >
+        Menu
+      </button>
+
+      <!-- Primary navigation -->
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       MAIN CONTENT
+       All major landing page sections live inside <main>
+       ========================================================= -->
+  <main id="main">
+
+    <!-- =======================================================
+         HERO
+         First impression: positioning, value prop, and CTAs
+         ======================================================= -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="hero-service">Copenhagen-based production studio</p>
+
+        <h1 class="hero-title">
+          <span class="hero-title-lead">Story-led video</span>
+          <span class="hero-title-rest">for brands with something <span class="hero-title-emphasis">real</span> to say.</span>
+        </h1>
+
+        <p class="hero-subheading">
+          Looking to share stories that connect across markets, languages and culture? Let's talk :)
+        </p>
+
+        <div class="hero-actions">
+          <a href="#contact" class="button button-primary">Get in Touch</a>
+          <a href="#work" class="button button-secondary">View Work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         WORK
+         Selected projects / portfolio preview
+         ======================================================= -->
+    <section id="work" class="section section-dark">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Work</p>
+          <h2>Selected projects</h2>
+          <p>
+            A small set of projects that show the tone, the craft, and the direction.
+          </p>
+        </div>
+
+        <div class="work-grid">
+          <!-- Project card 01 -->
+          <article class="work-card">
+            <div class="work-media placeholder-media">
+              <p>Project thumbnail / embed</p>
+            </div>
+            <div class="work-copy">
+              <h3>Project Title</h3>
+              <p class="work-description">
+                One line describing what it is.
+              </p>
+              <p class="work-role">
+                Role: Direction, edit, story, production
+              </p>
+              <a href="#" aria-label="View Project Title">View project</a>
+            </div>
+          </article>
+
+          <!-- Project card 02 -->
+          <article class="work-card">
+            <div class="work-media placeholder-media">
+              <p>Project thumbnail / embed</p>
+            </div>
+            <div class="work-copy">
+              <h3>Project Title</h3>
+              <p class="work-description">
+                One line describing what it is.
+              </p>
+              <p class="work-role">
+                Role: Direction, edit, story, production
+              </p>
+              <a href="#" aria-label="View Project Title">View project</a>
+            </div>
+          </article>
+
+          <!-- Project card 03 -->
+          <article class="work-card">
+            <div class="work-media placeholder-media">
+              <p>Project thumbnail / embed</p>
+            </div>
+            <div class="work-copy">
+              <h3>Project Title</h3>
+              <p class="work-description">
+                One line describing what it is.
+              </p>
+              <p class="work-role">
+                Role: Direction, edit, story, production
+              </p>
+              <a href="#" aria-label="View Project Title">View project</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         SERVICES
+         Main service offers / commercial positioning
+         ======================================================= -->
+    <section id="services" class="section section-light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Services</p>
+          <h2>Clear offers. No inflated language.</h2>
+          <p>
+            Story-led work for people who care about tone, meaning, and craft.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Cultural Bridge Video</h3>
+            <p>
+              Story-led video for Danish and Scandinavian companies entering or
+              expanding in Spanish-speaking markets. Bilingual production,
+              culturally fluent, built to work on both sides of the room.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3>Founder &amp; Brand Storytelling</h3>
+            <p>
+              Short-form video profiles and brand narratives for founders and teams
+              who want depth, clarity and aesthetic integrity.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <h3>Editing &amp; Post-Production</h3>
+            <p>
+              Narrative shaping, pacing, subtitles, cutdowns, and sound
+              structure for short-form and story-led video.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ABOUT
+         Personal / studio credibility section
+         ======================================================= -->
+    <section id="about" class="section section-dark">
+      <div class="container about-grid">
+        <!-- Portrait / image area -->
+     <div class="about-image">
+        <figure class="about-portrait">
+            <img src="images/your-photo.jpg" alt="José Rizzo portrait">
+        </figure>
+    </div>
+
+        <!-- About copy -->
+        <div class="about-copy">
+          <p class="section-label">About</p>
+          <h2>The person behind the studio</h2>
+          <p>
+            Creative Contraband Productions is the studio of José Rizzo —
+            editor, director, and visual storyteller based in Copenhagen.
+          </p>
+          <p>
+            I craft story-led video work for brands, founders and projects that have something meaningful to express.
+          </p>
+          <p>
+            I’m particularly interested in helping Danish and select Scandinavian companies tell their stories in Spanish-speaking markets without losing meaning, nuance, or aesthetic integrity.
+          </p>
+          <p> Translation is the part we see. Through refined questioning, experimentation and sharpening, we'll refine your story so it lands with the people they’re intended to inspire.</p>
+
+          <p>
+            <a href="https://joserizzo.com" target="_blank" rel="noopener noreferrer">
+              Visit joserizzo.com
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PROCESS
+         Four-step working method / reassurance section
+         ======================================================= -->
+    <section id="process" class="section section-light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Process</p>
+          <h2>A simple way of working</h2>
+          <p>
+            Reassurance without the corporate theatre.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step">
+            <span class="step-number">01</span>
+            <h3>Listen</h3>
+            <p>
+              What are you trying to say, to whom, and why does it matter?
+            </p>
+          </article>
+
+          <article class="process-step">
+            <span class="step-number">02</span>
+            <h3>Shape</h3>
+            <p>
+              Together we find the story worth telling and the form that serves it best.
+            </p>
+          </article>
+
+          <article class="process-step">
+            <span class="step-number">03</span>
+            <h3>Make</h3>
+            <p>
+              Production and post-production with care, intention, and honest communication.
+            </p>
+          </article>
+
+          <article class="process-step">
+            <span class="step-number">04</span>
+            <h3>Deliver</h3>
+            <p>
+              A finished piece you’re proud to share — and refine if needed.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         CONTACT
+         Final CTA and business email
+         ======================================================= -->
+    <section id="contact" class="section section-contact">
+      <div class="container contact-inner">
+        <p class="section-label">Contact</p>
+        <h2>Have a project, a brief, or just an idea worth talking about?</h2>
+        <p>Get in touch.</p>
+
+        <a class="contact-email" href="mailto:hola@creativecontraband.dk">
+          hola@creativecontraband.dk
+        </a>
+
+        <p class="contact-location">Copenhagen, Denmark</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+       Legal / business details and external personal site link
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 Creative Contraband Productions</p>
+      <p>CVR: 45705889</p>
+      <p>Copenhagen, Denmark</p>
+      <p>
+        <a href="https://joserizzo.com" target="_blank" rel="noopener noreferrer">
+          joserizzo.com
+        </a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
