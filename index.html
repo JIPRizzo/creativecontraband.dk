@@ -10,7 +10,7 @@
   <title>Creative Contraband Productions</title>
   <meta
     name="description"
-    content="Story-led video for brands, founders, and projects that have something real to say."
+    content="Creative Contraband Productions is an independent storytelling studio exploring people and their stories through documentary interviews, video portraits, and film."
   />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -29,16 +29,17 @@
   <header class="site-header">
     <div class="container header-inner">
       <!-- Brand / wordmark -->
-      <a class="wordmark" href="#top">Creative Contraband Productions</a>
+      <a class="wordmark" href="#top" aria-label="Creative Contraband Productions">
+        <span class="wordmark-full">Creative Contraband Productions</span>
+        <span class="wordmark-short" aria-hidden="true">CCP</span>
+      </a>
 
-      <!-- Mobile nav toggle
-           Currently hidden in CSS and not wired up with JS yet -->
+      <!-- Mobile navigation disclosure -->
       <button
         class="nav-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="site-nav"
-        aria-label="Open navigation"
       >
         Menu
       </button>
@@ -47,7 +48,7 @@
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
         <ul>
           <li><a href="#work">Work</a></li>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#collaborate">Collaborate</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -67,23 +68,138 @@
          ======================================================= -->
     <section class="hero">
       <div class="container hero-inner">
-        <p class="hero-service">Copenhagen-based production studio</p>
+        <p class="hero-service">INDEPENDENT FILMMAKER · COPENHAGEN</p>
 
         <h1 class="hero-title">
-          <span class="hero-title-lead">Story-led video</span>
-          <span class="hero-title-rest">for brands with something <span class="hero-title-emphasis">real</span> to say.</span>
+          <span class="hero-title-lead">Video portraits<span class="hero-period" aria-hidden="true">.</span></span>
+          <span class="hero-title-rest"><span class="hero-title-pair"><span class="hero-o">O</span>ne <span class="hero-title-emphasis">conversation</span></span><br class="hero-mobile-break"> at a time.</span>
         </h1>
 
-        <p class="hero-subheading">
-          Looking to share stories that connect across markets, languages and culture? Let's talk :)
-        </p>
+        <p class="hero-question">Is your story for others, or for yourself?</p>
 
         <div class="hero-actions">
           <a href="#contact" class="button button-primary">Get in Touch</a>
-          <a href="#work" class="button button-secondary">View Work</a>
         </div>
       </div>
     </section>
+
+    <script>
+      (() => {
+        const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+        if (!motion.matches || !Element.prototype.animate) return;
+
+        const hero = document.querySelector('.hero');
+        const heading = hero.querySelector('.hero-title');
+        const period = heading.querySelector('.hero-period');
+        const letter = heading.querySelector('.hero-o');
+        const origin = heading.getBoundingClientRect();
+        const context = document.createElement('canvas').getContext('2d');
+        if (!context) return;
+
+        // Measure the visible ink so the dot starts and lands on the text.
+        function inkBox(element) {
+          const style = getComputedStyle(element);
+          const baseline = document.createElement('span');
+          baseline.style.display = 'inline-block';
+          element.append(baseline);
+          const y = baseline.getBoundingClientRect().top - origin.top;
+          baseline.remove();
+
+          context.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+          const ink = context.measureText(element.textContent);
+          const left = element.getBoundingClientRect().left - origin.left - ink.actualBoundingBoxLeft;
+          const rx = (ink.actualBoundingBoxLeft + ink.actualBoundingBoxRight) / 2;
+          const ry = (ink.actualBoundingBoxAscent + ink.actualBoundingBoxDescent) / 2;
+          return { x: left + rx, y: y - ink.actualBoundingBoxAscent + ry, rx, ry };
+        }
+
+        function ellipse(x, y, rx, ry) {
+          return `M ${x - rx} ${y} a ${rx} ${ry} 0 1 0 ${2 * rx} 0 a ${rx} ${ry} 0 1 0 ${-2 * rx} 0 Z`;
+        }
+
+        function ease(value) {
+          const t = Math.max(0, Math.min(1, value));
+          return t * t * (3 - 2 * t);
+        }
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        const shape = document.createElementNS(svg.namespaceURI, 'path');
+        svg.setAttribute('aria-hidden', 'true');
+        svg.classList.add('hero-morph');
+        shape.setAttribute('fill-rule', 'evenodd');
+        svg.append(shape);
+        const animations = [];
+        let frame;
+        let fallback;
+
+        function finishImmediately() {
+          cancelAnimationFrame(frame);
+          clearTimeout(fallback);
+          for (const animation of animations) animation.cancel();
+          svg.remove();
+          letter.style.removeProperty('opacity');
+          hero.removeEventListener('focusin', finishImmediately);
+          window.removeEventListener('resize', finishImmediately);
+          motion.removeEventListener?.('change', finishImmediately);
+        }
+
+        try {
+          const start = inkBox(period);
+          const end = inkBox(letter);
+          if (!(start.rx > 0 && start.ry > 0 && end.rx > 0 && end.ry > 0)) return;
+
+          function draw(progress) {
+            const travel = ease((progress - 0.13) / 0.56);
+            const growth = ease((progress - 0.27) / 0.54);
+            const opening = ease((progress - 0.48) / 0.33);
+            const shade = 1 - ease(progress / 0.13);
+            const x = start.x + (end.x - start.x) * travel;
+            const y = start.y + (end.y - start.y) * travel;
+            const rx = start.rx + (end.rx - start.rx) * growth;
+            const ry = start.ry + (end.ry - start.ry) * growth;
+            const outer = ellipse(x, y, rx, ry);
+            const hole = opening > 0 ? ellipse(x, y, rx * 0.55 * opening, ry * 0.65 * opening) : '';
+            shape.setAttribute('d', outer + hole);
+            shape.setAttribute('fill', `rgb(${255 * shade}, ${248 * shade}, ${243 * shade})`);
+          }
+
+          draw(0);
+          heading.append(svg);
+          letter.style.opacity = '0';
+          const fade = [{ opacity: 0 }, { opacity: 1 }];
+          animations.push(hero.querySelector('.hero-title-rest').animate(fade, {
+            delay: 700, duration: 200, easing: 'ease-out', fill: 'backwards',
+          }));
+          for (const element of hero.querySelectorAll('.hero-question, .hero-actions')) {
+            animations.push(element.animate(fade, {
+              delay: 860, duration: 300, easing: 'ease-out', fill: 'backwards',
+            }));
+          }
+
+          hero.addEventListener('focusin', finishImmediately);
+          window.addEventListener('resize', finishImmediately);
+          motion.addEventListener?.('change', finishImmediately);
+          fallback = setTimeout(finishImmediately, 1800);
+          const started = performance.now();
+          function advance(now) {
+            const progress = Math.min(1, (now - started) / 900);
+            try {
+              draw(progress);
+              if (progress < 1) frame = requestAnimationFrame(advance);
+            } catch {
+              finishImmediately();
+            }
+          }
+          frame = requestAnimationFrame(advance);
+          Promise.all(animations.map(animation => animation.finished)).then(() => {
+            clearTimeout(fallback);
+            hero.removeEventListener('focusin', finishImmediately);
+          }, finishImmediately);
+        } catch {
+          finishImmediately();
+        }
+      })();
+    </script>
 
     <!-- =======================================================
          WORK
@@ -92,62 +208,28 @@
     <section id="work" class="section section-dark">
       <div class="container">
         <div class="section-heading">
-          <p class="section-label">Work</p>
-          <h2>Selected projects</h2>
-          <p>
-            A small set of projects that show the tone, the craft, and the direction.
-          </p>
+          <p class="section-label">WORK</p>
+          <h2>A first film.</h2>
         </div>
 
         <div class="work-grid">
-          <!-- Project card 01 -->
           <article class="work-card">
-            <div class="work-media placeholder-media">
-              <p>Project thumbnail / embed</p>
+            <div class="work-media">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/3qEuhwoxtM0?rel=0&amp;playsinline=1"
+                title="Æblehygge, a short film"
+                loading="lazy"
+                allowfullscreen
+              ></iframe>
             </div>
             <div class="work-copy">
-              <h3>Project Title</h3>
+              <h3>Æblehygge</h3>
               <p class="work-description">
-                One line describing what it is.
+                A short film about apple juice in Gilleleje, Denmark. Apples,
+                a little craftsmanship, and the pleasure of making something
+                together.
               </p>
-              <p class="work-role">
-                Role: Direction, edit, story, production
-              </p>
-              <a href="#" aria-label="View Project Title">View project</a>
-            </div>
-          </article>
-
-          <!-- Project card 02 -->
-          <article class="work-card">
-            <div class="work-media placeholder-media">
-              <p>Project thumbnail / embed</p>
-            </div>
-            <div class="work-copy">
-              <h3>Project Title</h3>
-              <p class="work-description">
-                One line describing what it is.
-              </p>
-              <p class="work-role">
-                Role: Direction, edit, story, production
-              </p>
-              <a href="#" aria-label="View Project Title">View project</a>
-            </div>
-          </article>
-
-          <!-- Project card 03 -->
-          <article class="work-card">
-            <div class="work-media placeholder-media">
-              <p>Project thumbnail / embed</p>
-            </div>
-            <div class="work-copy">
-              <h3>Project Title</h3>
-              <p class="work-description">
-                One line describing what it is.
-              </p>
-              <p class="work-role">
-                Role: Direction, edit, story, production
-              </p>
-              <a href="#" aria-label="View Project Title">View project</a>
+              <p class="work-role">2 min · Direction, edit, story, production</p>
             </div>
           </article>
         </div>
@@ -158,39 +240,28 @@
          SERVICES
          Main service offers / commercial positioning
          ======================================================= -->
-    <section id="services" class="section section-light">
+    <section id="collaborate" class="section section-light">
       <div class="container">
         <div class="section-heading">
-          <p class="section-label">Services</p>
-          <h2>Clear offers. No inflated language.</h2>
-          <p>
-            Story-led work for people who care about tone, meaning, and craft.
-          </p>
+          <p class="section-label">COLLABORATE</p>
+          <h2>Two ways to start.</h2>
         </div>
 
         <div class="services-grid">
           <article class="service-card">
-            <h3>Cultural Bridge Video</h3>
+            <h3>Produce a portrait</h3>
             <p>
-              Story-led video for Danish and Scandinavian companies entering or
-              expanding in Spanish-speaking markets. Bilingual production,
-              culturally fluent, built to work on both sides of the room.
+              A filmed conversation that shows who you are and what matters to you. I come to you with the cameras and lights, or we find a space that suits. We shape it together, and you receive a short documentary portrait to keep and share as you please.
+            </p>
+            <p class="service-secondary">
+              Portraits can be a birthday gift, lessons for the people who come after you, a message to your future self, a video CV, or simply a way to find out how it feels to be interviewed in front of a camera.
             </p>
           </article>
 
           <article class="service-card">
-            <h3>Founder &amp; Brand Storytelling</h3>
+            <h3>Commission a story</h3>
             <p>
-              Short-form video profiles and brand narratives for founders and teams
-              who want depth, clarity and aesthetic integrity.
-            </p>
-          </article>
-
-          <article class="service-card">
-            <h3>Editing &amp; Post-Production</h3>
-            <p>
-              Narrative shaping, pacing, subtitles, cutdowns, and sound
-              structure for short-form and story-led video.
+              For individuals and organizations who want to tell a story through film. We start with a conversation: why it matters, how best to say it, who it's for, and what they should feel.
             </p>
           </article>
         </div>
@@ -207,53 +278,47 @@
      <div class="about-image">
         <figure class="about-portrait">
             <img src="images/jose-portrait.jpg" alt="José Rizzo portrait">
+            <svg class="portrait-frame" aria-hidden="true" focusable="false">
+              <rect pathLength="1"></rect>
+            </svg>
         </figure>
     </div>
 
         <!-- About copy -->
         <div class="about-copy">
-          <p class="section-label">About</p>
-          <h2>The person behind the studio</h2>
+          <p class="section-label">ABOUT</p>
+          <h2>The person behind the camera</h2>
           <p>
-            Creative Contraband Productions is José Rizzo’s studio — 
-            editor, director, and multilingual storyteller based in Copenhagen.
+            I’m José Rizzo, an independent, self-taught filmmaker based in Copenhagen.
           </p>
           <p>
-            I’ve been crossing borders since I was 90 days old. Adapting was never a skill I had to learn. It was the starting point. With each relocation came more perspective, and a growing obsession with what connects us across cultures.        
+            I’ve been crossing borders since I was 90 days old. Adapting was never a skill I had to learn. It was the starting point. With each relocation came more perspective, and an ever-growing fascination with what connects us across cultures.
           </p>
           <p>
-            Now I bring all of that to video. As a one-person studio, my focus is simple: telling your story with clarity, care, and cultural intelligence.
+            After years hustling through commercial roles across industries, and accelerating my hair loss in the process, I chose to pursue filmmaking. It draws on everything I learned about communicating in business, but asks for different tools: showing more, saying less. One frame at a time.
           </p>
-          <p> I’m especially interested in helping Danish and Scandinavian companies communicate their stories in Spanish-speaking markets... though the right story is always worth telling, wherever it needs to land.</p>
+          <p>
+            Befriending strangers has always come naturally to me. It’s been my way of tending my roots while in motion. Interviewing connects me to that enduring feeling of belonging, not to a place but to a culture. A culture nurtured by curiosity, people and sharing stories. It keeps me young, receding hairline and all.
+          </p>
 
           <p class="about-visit">
-            <span>Visit</span>
-            <a
-                href="https://joserizzo.com"
-                class="jr-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit JoseRizzo.com"
-            >
-                <img src="images/jr-mark.png" alt="Jose Rizzo mark" class="jr-link-icon">
+            <a class="jr-link" href="https://joserizzo.com/" target="_blank" rel="noopener noreferrer">
+              Visit joserizzo.com
+              <img src="images/jr-mark.png" alt="" class="jr-link-icon">
             </a>
-        </p>
+          </p>
         </div>
       </div>
     </section>
 
     <!-- =======================================================
-         PROCESS
-         Four-step working method / reassurance section
+         COLLABORATION
          ======================================================= -->
     <section id="process" class="section section-light">
       <div class="container">
         <div class="section-heading">
-          <p class="section-label">Process</p>
-          <h2>A simple way of working</h2>
-          <p>
-            Reassurance without the corporate theatre.
-          </p>
+          <p class="section-label">Collaboration</p>
+          <h2>A story worth telling, together.</h2>
         </div>
 
         <div class="process-grid">
@@ -261,7 +326,7 @@
             <span class="step-number">01</span>
             <h3>Listen</h3>
             <p>
-              What are you trying to say, to whom, and why does it matter?
+              We start with a chat about why you want to tell your story and who it’s for.
             </p>
           </article>
 
@@ -269,7 +334,7 @@
             <span class="step-number">02</span>
             <h3>Shape</h3>
             <p>
-              Together we find the story worth telling and the form that serves it best.
+              Together we look for what makes your story yours: the turning points, the tensions, what you feel about them. We shape it so it stays true to how you said it.
             </p>
           </article>
 
@@ -277,17 +342,18 @@
             <span class="step-number">03</span>
             <h3>Make</h3>
             <p>
-              Production and post-production with care, intention, and honest communication.
+              Our collaboration becomes a portrait. We see it, feel it, refine it, and end up with a finished piece we’re proud to share.
             </p>
           </article>
+        </div>
 
-          <article class="process-step">
-            <span class="step-number">04</span>
-            <h3>Deliver</h3>
-            <p>
-              A finished piece you’re proud to share — and refine if needed.
-            </p>
-          </article>
+        <p class="process-note"><em>We’ll find something that works for both of us.</em></p>
+
+        <div class="process-closing">
+          <h3>Measuring impact.</h3>
+          <p>
+            For businesses and organisations who want to trace their story's digital wake, a quality film is only part of the picture. We also agree on what success looks like, who we want to reach, and how we'll assess whether the story has landed.
+          </p>
         </div>
       </div>
     </section>
@@ -299,8 +365,8 @@
     <section id="contact" class="section section-contact">
       <div class="container contact-inner">
         <p class="section-label">Contact</p>
-        <h2>Have a project, a brief, or just an idea worth talking about?</h2>
-        <p>Get in touch.</p>
+        <h2>Let's get to it. 🎬</h2>
+        <p>Lights are standing by. Camera is ready.</p>
 
         <a class="contact-email" href="mailto:hola@creativecontraband.dk">
           hola@creativecontraband.dk
@@ -333,5 +399,68 @@
       </p>
     </div>
   </footer>
+  <script>
+    const header = document.querySelector('.site-header');
+    const menuButton = header.querySelector('.nav-toggle');
+    const mobileHeader = window.matchMedia('(max-width: 720px)');
+
+    const menuIsOpen = () => menuButton.getAttribute('aria-expanded') === 'true';
+    const closeMenu = () => menuButton.setAttribute('aria-expanded', 'false');
+
+    menuButton.addEventListener('click', () => {
+      menuButton.setAttribute('aria-expanded', String(!menuIsOpen()));
+    });
+
+    header.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !menuIsOpen()) return;
+
+      closeMenu();
+      menuButton.focus();
+    });
+
+    header.addEventListener('focusout', (event) => {
+      if (event.relatedTarget && !header.contains(event.relatedTarget)) closeMenu();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!header.contains(event.target)) closeMenu();
+    });
+
+    header.addEventListener('click', (event) => {
+      const link = event.target.closest('a[href^="#"]');
+      if (!link || !menuIsOpen()) return;
+
+      const section = document.getElementById(link.hash.slice(1));
+      if (section) {
+        section.setAttribute('tabindex', '-1');
+        section.focus({ preventScroll: true });
+      }
+      closeMenu();
+    });
+
+    mobileHeader.addEventListener?.('change', closeMenu);
+    header.classList.add('has-mobile-menu');
+
+    if ('IntersectionObserver' in window) {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+
+          observer.unobserve(entry.target);
+          if (reducedMotion.matches) {
+            entry.target.classList.remove('reveal-pending');
+          } else {
+            entry.target.classList.replace('reveal-pending', 'reveal-once');
+          }
+        }
+      }, { threshold: 0.2 });
+
+      for (const target of document.querySelectorAll('.about-portrait, #contact')) {
+        target.classList.add('reveal-pending');
+        observer.observe(target);
+      }
+    }
+  </script>
 </body>
 </html>
