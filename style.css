@@ -564,42 +564,24 @@ button:focus-visible {
 }
 
 /* =========================================================
-   09. SERVICES SECTION
-   Simple stacked service descriptions with restrained borders
-   ========================================================= */
-
-.services-grid {
-  display: block;
-  border-top: 1px solid var(--line);
-}
-
-.service-card {
-  max-width: 46rem;
-  padding: 1.45rem 0 1.6rem;
-  border-bottom: 1px solid var(--line);
-  background: transparent;
-}
-
-.service-card h3 {
-  margin-bottom: 0.55rem;
-  font-size: 1.22rem;
-  letter-spacing: -0.01em;
-}
-
-.service-card p {
-  margin-bottom: 0;
-  color: var(--muted);
-}
-
-.service-card .service-secondary {
-  margin-top: 0.85rem;
-  font-size: 0.95rem;
-}
-
-/* =========================================================
    10. ABOUT SECTION
    About grid, portrait placeholder, and copy styling
    ========================================================= */
+
+#work + #about {
+  position: relative;
+}
+
+#work + #about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  width: min(calc(100% - 2rem), var(--max-width));
+  height: 1px;
+  margin-inline: auto;
+  background: var(--accent-2);
+}
 
 .about-grid {
   display: grid;
@@ -672,6 +654,10 @@ button:focus-visible {
   font-size: 1.02rem;
 }
 
+.about-copy > p:not([class]) {
+  text-wrap: pretty;
+}
+
 .about-copy a {
   color: #f5efe7;
   font-weight: 650;
@@ -700,7 +686,7 @@ button:focus-visible {
    4-step layout, line motif, and moving spark accent
    ========================================================= */
 
-#process {
+#collaborate {
   background: linear-gradient(180deg, var(--surface-2) 0%, var(--bg) 100%);
 }
 
@@ -761,14 +747,12 @@ button:focus-visible {
   letter-spacing: 0.1em;
 }
 
-.process-step h3,
-.process-closing h3 {
+.process-step h3 {
   margin-bottom: 0.55rem;
   font-size: 1.1rem;
 }
 
-.process-step p,
-.process-closing p {
+.process-step p {
   margin-bottom: 0;
   color: var(--muted);
 }
@@ -776,14 +760,6 @@ button:focus-visible {
 .process-note {
   margin: 2rem 0 0;
   color: var(--muted);
-  text-align: center;
-}
-
-.process-closing {
-  max-width: 36rem;
-  margin: 2rem auto 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
   text-align: center;
 }
 
@@ -811,6 +787,10 @@ button:focus-visible {
 .contact-inner p {
   color: rgba(245, 239, 231, 0.78);
   font-size: 1.05rem;
+}
+
+.contact-inner h2 + p {
+  text-wrap: balance;
 }
 
 .contact-email {
@@ -1025,7 +1005,7 @@ button:focus-visible {
       -50% center / 24% 100% no-repeat;
     mix-blend-mode: screen;
     pointer-events: none;
-    animation: contact-email-sweep 850ms ease-in-out;
+    animation: contact-email-sweep 3.5s ease-in-out;
   }
 }
 
