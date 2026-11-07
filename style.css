@@ -815,10 +815,6 @@ button:focus-visible {
   text-decoration-color: currentColor;
 }
 
-.contact-location {
-  opacity: 0.88;
-}
-
 /* =========================================================
    13. FOOTER
    Closing strip, subtle top accent, and quiet outbound link

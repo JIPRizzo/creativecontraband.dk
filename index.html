@@ -84,7 +84,7 @@
     </section>
 
     <script>
-      (() => {
+      const startHeroReveal = () => {
         const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
         if (!motion.matches || !Element.prototype.animate) return;
 
@@ -139,8 +139,23 @@
           svg.remove();
           letter.style.removeProperty('opacity');
           hero.removeEventListener('focusin', finishImmediately);
-          window.removeEventListener('resize', finishImmediately);
+          window.removeEventListener('resize', checkHeroGeometry);
           motion.removeEventListener?.('change', finishImmediately);
+        }
+
+        function heroGeometry() {
+          const bounds = heading.getBoundingClientRect();
+          return [period, letter].flatMap(element => {
+            const rect = element.getBoundingClientRect();
+            return [rect.left - bounds.left, rect.top - bounds.top, rect.width, rect.height];
+          });
+        }
+
+        let initialGeometry;
+        function checkHeroGeometry() {
+          if (heroGeometry().some((value, index) => Math.abs(value - initialGeometry[index]) > 0.5)) {
+            finishImmediately();
+          }
         }
 
         try {
@@ -177,7 +192,8 @@
           }
 
           hero.addEventListener('focusin', finishImmediately);
-          window.addEventListener('resize', finishImmediately);
+          initialGeometry = heroGeometry();
+          window.addEventListener('resize', checkHeroGeometry);
           motion.addEventListener?.('change', finishImmediately);
           fallback = setTimeout(finishImmediately, 1800);
           const started = performance.now();
@@ -198,7 +214,23 @@
         } catch {
           finishImmediately();
         }
-      })();
+      };
+
+      function startHeroWhenVisible() {
+        if (document.visibilityState !== 'visible') return;
+
+        document.removeEventListener('visibilitychange', startHeroWhenVisible);
+        requestAnimationFrame(() => {
+          if (document.visibilityState === 'visible') {
+            startHeroReveal();
+          } else {
+            document.addEventListener('visibilitychange', startHeroWhenVisible);
+          }
+        });
+      }
+
+      document.addEventListener('visibilitychange', startHeroWhenVisible);
+      startHeroWhenVisible();
     </script>
 
     <!-- =======================================================
@@ -332,8 +364,6 @@
         <a class="contact-email" href="mailto:hola@creativecontraband.dk">
           hola@creativecontraband.dk
         </a>
-
-        <p class="contact-location">Copenhagen, Denmark</p>
       </div>
     </section>
   </main>
