@@ -32,6 +32,9 @@
       <a class="wordmark" href="#top" aria-label="Creative Contraband Productions">
         <span class="wordmark-full">Creative Contraband Productions</span>
         <span class="wordmark-short" aria-hidden="true">CCP</span>
+        <span class="wordmark-bulb-wrap" aria-hidden="true">
+          <img class="wordmark-bulb" src="images/header-bulb-photo.png" alt="" width="29" height="40">
+        </span>
       </a>
 
       <!-- Mobile navigation disclosure -->
@@ -48,8 +51,8 @@
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
         <ul>
           <li><a href="#work">Work</a></li>
-          <li><a href="#about">About</a></li>
           <li><a href="#collaborate">Collaborate</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
@@ -75,10 +78,10 @@
           <span class="hero-title-rest"><span class="hero-title-pair"><span class="hero-o">O</span>ne <span class="hero-title-emphasis">conversation</span></span><br class="hero-mobile-break"> at a time.</span>
         </h1>
 
-        <p class="hero-question">Is your story for others, or for yourself?</p>
+        <p class="hero-question">Is your story for others or yourself?</p>
 
         <div class="hero-actions">
-          <a href="#contact" class="button button-primary">Get in Touch</a>
+          <a href="#contact" class="button button-primary">Let's shoot a video!</a>
         </div>
       </div>
     </section>
@@ -261,10 +264,49 @@
                 a little craftsmanship, and the pleasure of making something
                 together.
               </p>
-              <p class="work-role">2 min · Direction, edit, story, production</p>
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         COLLABORATION
+         ======================================================= -->
+    <section id="collaborate" class="section section-light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">Collaboration</p>
+          <h2>How we find your story…</h2>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step">
+            <span class="step-number">01</span>
+            <h3>Listen</h3>
+            <p>
+              We put our finger on why you want to tell your story and who it’s for.
+            </p>
+          </article>
+
+          <article class="process-step">
+            <span class="step-number">02</span>
+            <h3>Shape</h3>
+            <p>
+              Together we look for what makes your story yours: the turning points, the tensions, what you feel about them. We shape it so it stays true to how you say it.
+            </p>
+          </article>
+
+          <article class="process-step">
+            <span class="step-number">03</span>
+            <h3>Make</h3>
+            <p>
+              Our collaboration becomes a portrait. We see it, feel it, refine it, and end up with a finished piece we’re proud to share.
+            </p>
+          </article>
+        </div>
+
+        <p class="process-note"><em>We’ll find something that works for both of us.</em></p>
       </div>
     </section>
 
@@ -312,46 +354,6 @@
     </section>
 
     <!-- =======================================================
-         COLLABORATION
-         ======================================================= -->
-    <section id="collaborate" class="section section-light">
-      <div class="container">
-        <div class="section-heading">
-          <p class="section-label">Collaboration</p>
-          <h2>A story worth telling, together.</h2>
-        </div>
-
-        <div class="process-grid">
-          <article class="process-step">
-            <span class="step-number">01</span>
-            <h3>Listen</h3>
-            <p>
-              We start with a chat about why you want to tell your story and who it’s for.
-            </p>
-          </article>
-
-          <article class="process-step">
-            <span class="step-number">02</span>
-            <h3>Shape</h3>
-            <p>
-              Together we look for what makes your story yours: the turning points, the tensions, what you feel about them. We shape it so it stays true to how you said it.
-            </p>
-          </article>
-
-          <article class="process-step">
-            <span class="step-number">03</span>
-            <h3>Make</h3>
-            <p>
-              Our collaboration becomes a portrait. We see it, feel it, refine it, and end up with a finished piece we’re proud to share.
-            </p>
-          </article>
-        </div>
-
-        <p class="process-note"><em>We’ll find something that works for both of us.</em></p>
-      </div>
-    </section>
-
-    <!-- =======================================================
          CONTACT
          Final CTA and business email
          ======================================================= -->
@@ -359,11 +361,43 @@
       <div class="container contact-inner">
         <p class="section-label">Contact</p>
         <h2>Let's get to it. 🎬</h2>
-        <p>Tell me about you and the story you want to share.</p>
 
-        <a class="contact-email" href="mailto:hola@creativecontraband.dk">
-          hola@creativecontraband.dk
-        </a>
+        <div class="contact-options" aria-label="Choose how to get in touch" hidden>
+          <button id="contact-talk-toggle" class="contact-option" type="button" aria-expanded="false" aria-controls="contact-talk">Talk here.</button>
+          <button id="contact-write-toggle" class="contact-option" type="button" aria-expanded="false" aria-controls="contact-write">Write here.</button>
+        </div>
+
+        <div id="contact-talk" class="contact-panel" role="region" aria-labelledby="contact-talk-toggle">
+          <p>Choose a time for a chat below.</p>
+          <a class="button button-primary contact-booking" href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ14uOKZP02dYfNo-RGJYXC32vaM91geDB4Coi_tm9E56FnlzObP31XhBFVy95n5rd5JcV_yjJmO?gv=true" target="_blank" rel="noopener noreferrer" aria-label="Schedule a call (opens in a new tab)">Schedule a call</a>
+        </div>
+
+        <div id="contact-write" class="contact-panel" role="region" aria-labelledby="contact-write-toggle">
+        <!-- Submission uses JavaScript for inline feedback. No action is set:
+             without JavaScript the disabled button and email fallback below remain available. -->
+        <form class="contact-form" data-endpoint="https://formspree.io/f/mdegkbnj" aria-describedby="contact-reassurance contact-privacy">
+          <fieldset>
+            <legend>I'm reaching out because...</legend>
+            <label class="contact-choice"><input type="radio" name="reason" value="Video portrait" required data-placeholder="A little about yourself, and what makes you curious about being filmed..."> <span>I'd like to be part of a video portrait.</span></label>
+            <label class="contact-choice"><input type="radio" name="reason" value="Project or collaboration" required data-placeholder="What are you working on, and what would you like the film to achieve?"> <span>I have a project or collaboration in mind.</span></label>
+            <label class="contact-choice"><input type="radio" name="reason" value="General conversation" required data-placeholder="What's on your mind?"> <span>I just want to start a conversation.</span></label>
+          </fieldset>
+          <label for="contact-name">Name (required)</label>
+          <input id="contact-name" name="name" autocomplete="name" maxlength="200" required>
+          <label for="contact-address">Email (required)</label>
+          <input id="contact-address" name="email" type="email" autocomplete="email" maxlength="254" required>
+          <label for="contact-message">Message (required)</label>
+          <textarea id="contact-message" name="message" rows="6" maxlength="10000" placeholder="What's on your mind?" aria-describedby="contact-sensitive" required></textarea>
+          <div hidden aria-hidden="true"><label>Leave this empty<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+          <p id="contact-reassurance">No need for a polished pitch here, just enough to get the conversation started. We can decide how to best proceed based on where you're based and your needs.</p>
+          <p id="contact-sensitive" class="contact-small">Please be mindful of sensitive personal information in this initial message. The information you share with me will be processed through Formspree™.</p>
+          <p id="contact-privacy" class="contact-small"><a href="privacy.html">You can read the enquiry privacy policy here.</a></p>
+          <button class="button button-primary" type="submit" disabled>Send message</button>
+          <p class="contact-status" role="status" aria-live="polite" aria-atomic="true">The form is unavailable. Please enable JavaScript or use the email contact on the privacy-policy page.</p>
+          <noscript><p>Please enable JavaScript to use this form, or email <a href="mailto:hola@creativecontraband.dk">hola@creativecontraband.dk</a>.</p></noscript>
+        </form>
+
+        </div>
       </div>
     </section>
   </main>
@@ -390,6 +424,7 @@
       </p>
     </div>
   </footer>
+  <script src="contact.js"></script>
   <script>
     const header = document.querySelector('.site-header');
     const menuButton = header.querySelector('.nav-toggle');
