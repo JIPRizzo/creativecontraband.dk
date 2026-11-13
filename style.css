@@ -217,17 +217,38 @@ button:focus-visible {
   letter-spacing: 0.02em;
 }
 
-.wordmark::after {
-  content: "";
+.wordmark-full {
+  position: relative;
+  top: 3px;
+}
+
+.wordmark-bulb-wrap {
+  position: relative;
   display: inline-block;
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-left: 0.55rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 0 12px rgba(214, 132, 88, 0.24);
-  animation: brandPulse 2.8s ease-in-out infinite;
+  width: calc(40px * 137 / 192);
+  height: 40px;
+  margin-left: 0.45rem;
   vertical-align: middle;
+  isolation: isolate;
+}
+
+.wordmark-bulb-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("images/header-bulb-photo.png") center / contain no-repeat;
+  filter: blur(2px) drop-shadow(0 0 2px rgba(214, 132, 88, 0.65));
+  opacity: 0.5;
+  clip-path: inset(43% -6px -6px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.wordmark-bulb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .wordmark-short,
@@ -553,13 +574,12 @@ button:focus-visible {
   font-size: 1.2rem;
 }
 
-.work-description,
-.work-role {
+.work-description {
   color: rgba(245, 239, 231, 0.76);
   font-size: 0.98rem;
 }
 
-.work-role {
+.work-description {
   margin-bottom: 0;
 }
 
@@ -568,19 +588,22 @@ button:focus-visible {
    About grid, portrait placeholder, and copy styling
    ========================================================= */
 
-#work + #about {
+/* The accent sits on the shared Collaboration/About boundary. */
+#collaborate + #about {
   position: relative;
 }
 
-#work + #about::before {
+#collaborate + #about::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: -2px;
   inset-inline: 0;
-  width: min(calc(100% - 2rem), var(--max-width));
-  height: 1px;
+  width: min(calc(100% - 48px), var(--max-width));
+  height: 4px;
   margin-inline: auto;
+  border-radius: 999px;
   background: var(--accent-2);
+  pointer-events: none;
 }
 
 .about-grid {
@@ -1187,4 +1210,98 @@ button:focus-visible {
   .hero-actions .button {
     width: 100%;
   }
+}
+/* Guided contact form — inherits the existing contact palette and typography. */
+.contact-form { display: grid; gap: 0.65rem; margin-top: 2rem; }
+.contact-form fieldset { min-width: 0; margin: 0 0 0.75rem; padding: 0; border: 0; }
+.contact-form legend { margin-bottom: 0.75rem; font-weight: 650; }
+.contact-choice { display: flex; align-items: start; gap: 0.7rem; padding: 0.7rem 0; cursor: pointer; }
+.contact-choice input { flex: 0 0 auto; margin-top: 0.35rem; width: 1.15rem; height: 1.15rem; accent-color: var(--accent-3); }
+.contact-form > input, .contact-form textarea {
+  width: 100%; min-width: 0; padding: 0.8rem 1rem; border: 1px solid rgba(245,239,231,0.5);
+  border-radius: 0.65rem; background: var(--charcoal-2); color: #f5efe7;
+}
+.contact-form textarea { resize: vertical; min-height: 9rem; }
+.contact-form textarea::placeholder { color: rgba(245,239,231,0.7); opacity: 1; }
+.contact-form :is(input, textarea, button):focus-visible, .contact-privacy-policy summary:focus-visible {
+  outline: 2px solid var(--accent-3); outline-offset: 3px;
+}
+.contact-form .contact-small, .contact-privacy-policy p { font-size: 0.92rem; }
+.contact-form p { margin: 0.4rem 0; }
+.contact-form a, .contact-privacy-policy a { text-decoration: underline; text-underline-offset: 0.18em; }
+.contact-form button { justify-self: start; margin-top: 0.5rem; cursor: pointer; }
+.contact-form button:disabled { cursor: not-allowed; opacity: 0.65; transform: none; }
+.contact-form button::after { animation: none; }
+.contact-status { min-height: 1.7em; }
+.contact-status[data-state="error"] { border-left: 3px solid var(--accent-3); padding-left: 0.75rem; }
+.contact-privacy-policy { margin-top: 1.5rem; overflow-wrap: anywhere; scroll-margin-top: 6rem; }
+.contact-privacy-policy summary { cursor: pointer; color: #f5efe7; }
+.contact-privacy-policy p { margin-top: 1rem; }
+
+/* Equal contact routes, with native buttons and persistent form state. */
+.contact-options:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.contact-option {
+  min-height: 3.5rem;
+  padding: 0.9rem 1.25rem;
+  border: 2px solid var(--accent-2);
+  border-radius: 999px;
+  background: var(--accent-2);
+  color: var(--charcoal);
+  font-weight: 700;
+  cursor: pointer;
+}
+.contact-option:hover { background: var(--hero-rust-soft); }
+.contact-option[aria-expanded="true"] {
+  box-shadow: inset 0 0 0 2px var(--charcoal), 0 0 0 1px var(--accent-2);
+}
+.contact-option:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 4px;
+}
+.contact-panel { margin-top: 2rem; }
+.contact-panel[hidden] { display: none; }
+.contact-panel .contact-form { margin-top: 0; }
+.contact-booking { text-decoration: none; }
+.contact-booking::after { animation: none; }
+@media (max-width: 480px) {
+  .contact-options:not([hidden]) { grid-template-columns: 1fr; gap: 0.75rem; }
+}
+
+.privacy-page { background: var(--charcoal); }
+.privacy-copy { max-width: 48rem; overflow-wrap: anywhere; }
+.privacy-copy > a { display: inline-block; margin-bottom: 2rem; }
+.privacy-copy a { text-decoration: underline; text-underline-offset: 0.18em; }
+.privacy-copy h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; }
+.privacy-copy p { color: rgba(245, 239, 231, 0.78); }
+.privacy-copy .section-label { color: var(--accent-3); }
+
+/* Centre the contact invitation; retain the section label and panel alignment. */
+.contact-inner > h2 {
+  display: block;
+  text-align: center;
+}
+.contact-options { text-align: center; }
+
+@media (max-width: 720px) {
+  .wordmark-short {
+    position: relative;
+    top: 9px;
+    font-size: 1.25em;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wordmark-bulb-wrap::before {
+    animation: bulb-glow-breathe 3s ease-in-out infinite;
+  }
+}
+
+@keyframes bulb-glow-breathe {
+  0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.8; }
 }
